@@ -1,0 +1,12 @@
+---
+- name: Restart Service If Down
+  hosts: all
+  tasks:
+    - name: Check Service Status
+      shell: systemctl is-active nginx
+      register: service_status
+      ignore_errors: yes
+
+    - name: Restart Service When Down
+      shell: systemctl restart nginx
+      when: service_status.stdout != "active"
