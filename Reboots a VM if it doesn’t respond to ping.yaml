@@ -1,0 +1,11 @@
+- name: Reboot Unreachable VM
+  hosts: all
+  tasks:
+    - name: Ping VM
+      ping:
+      register: ping_result
+      ignore_errors: yes
+
+    - name: Reboot VM if Unreachable
+      shell: reboot
+      when: ping_result.failed
